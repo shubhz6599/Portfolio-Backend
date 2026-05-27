@@ -1,5 +1,8 @@
-import 'dotenv/config';
+import { config } from 'dotenv';
+import { fileURLToPath } from 'url';
 import { z } from 'zod';
+
+config({ path: fileURLToPath(new URL('../../.env', import.meta.url)) });
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
@@ -18,7 +21,9 @@ const envSchema = z.object({
   SMTP_PORT: z.coerce.number().int().positive().default(587),
   SMTP_SECURE: z.coerce.boolean().default(false),
   SMTP_USER: z.string().optional(),
-  SMTP_PASS: z.string().optional()
+  SMTP_PASS: z.string().optional(),
+  OPENAI_API_KEY: z.string().optional(),
+  OPENROUTER_API_KEY: z.string().optional()
 });
 
 export const env = envSchema.parse(process.env);

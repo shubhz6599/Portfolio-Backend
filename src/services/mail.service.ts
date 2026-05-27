@@ -28,7 +28,14 @@ function escapeHtml(value = ''): string {
 }
 
 function createTransporter() {
-  if (!env.SMTP_HOST || !env.SMTP_USER || !env.SMTP_PASS) {
+  const isConfigured = !!env.SMTP_HOST && !!env.SMTP_USER && !!env.SMTP_PASS;
+
+  if (!isConfigured) {
+    console.error('SMTP configuration missing:', {
+      SMTP_HOST: !!env.SMTP_HOST,
+      SMTP_USER: !!env.SMTP_USER,
+      SMTP_PASS: !!env.SMTP_PASS
+    });
     return null;
   }
 
@@ -48,7 +55,7 @@ export async function sendEnquiryNotification(
   enquiryId: string
 ): Promise<MailResult> {
   const transporter = createTransporter();
-console.log(payload)
+  console.log('Enquiry payload:', payload);
   if (!transporter) {
     return { status: 'skipped', error: 'SMTP is not configured.' };
   }

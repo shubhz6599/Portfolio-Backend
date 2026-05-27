@@ -9,6 +9,7 @@ import { authRoutes } from './routes/auth.routes.js';
 import { adminRoutes } from './routes/admin.routes.js';
 import { enquiryRoutes } from './routes/enquiry.routes.js';
 import { publicRoutes } from './routes/public.routes.js';
+import { aiRoutes } from './routes/ai.routes.js';
 import { errorHandler, notFound } from './middleware/error.middleware.js';
 
 export function createApp() {
@@ -50,6 +51,7 @@ export function createApp() {
   app.use('/api/enquiries', enquiryLimiter, enquiryRoutes);
   app.use('/api/auth', authRoutes);
   app.use('/api/admin', adminRoutes);
+  app.use('/api/ai', aiRoutes);
   app.use('/api', publicRoutes);
   app.use(notFound);
   app.use(errorHandler);
